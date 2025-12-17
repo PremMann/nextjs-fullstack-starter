@@ -3,12 +3,13 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { AlertCircle } from "lucide-react"
 
-export default function AuthErrorPage({
+export default async function AuthErrorPage({
   searchParams,
 }: {
-  searchParams: { error?: string }
+  searchParams: Promise<{ error?: string }>
 }) {
-  const errorMessage = searchParams.error || "An authentication error occurred"
+  const params = await searchParams
+  const errorMessage = params.error || "An authentication error occurred"
 
   return (
     <Card className="w-full">

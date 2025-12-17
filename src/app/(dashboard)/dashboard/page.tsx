@@ -39,7 +39,7 @@ export default async function DashboardPage() {
             Welcome back, {session.user.name}!
           </h2>
           <p className="text-muted-foreground">
-            Here's what's happening with your application today.
+            Here&apos;s what&apos;s happening with your application today.
           </p>
         </div>
 

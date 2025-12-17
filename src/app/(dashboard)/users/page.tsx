@@ -23,7 +23,7 @@ export default async function UsersPage() {
             <AlertCircle className="h-4 w-4" />
             <AlertTitle>Access Denied</AlertTitle>
             <AlertDescription>
-              You don't have permission to access this page.
+              You don&apos;t have permission to access this page.
             </AlertDescription>
           </Alert>
         </div>

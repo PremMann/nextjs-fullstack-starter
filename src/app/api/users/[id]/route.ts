@@ -5,7 +5,7 @@ import { hash } from "bcryptjs"
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await auth()
@@ -14,9 +14,11 @@ export async function GET(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 
+    const { id } = await params
+
     // Users can only view their own profile or admins/moderators can view any
     if (
-      session.user.id !== params.id &&
+      session.user.id !== id &&
       session.user.role !== "ADMIN" &&
       session.user.role !== "MODERATOR"
     ) {
@@ -24,7 +26,7 @@ export async function GET(
     }
 
     const user = await prisma.user.findUnique({
-      where: { id: params.id },
+      where: { id },
       select: {
         id: true,
         name: true,
@@ -52,7 +54,7 @@ export async function GET(
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await auth()
@@ -61,8 +63,10 @@ export async function PATCH(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 
+    const { id } = await params
+
     // Users can only update their own profile or admins can update any
-    if (session.user.id !== params.id && session.user.role !== "ADMIN") {
+    if (session.user.id !== id && session.user.role !== "ADMIN") {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 })
     }
 
@@ -81,7 +85,7 @@ export async function PATCH(
     }
 
     const user = await prisma.user.update({
-      where: { id: params.id },
+      where: { id },
       data: updateData,
       select: {
         id: true,
@@ -105,7 +109,7 @@ export async function PATCH(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await auth()
@@ -114,8 +118,10 @@ export async function DELETE(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 
+    const { id } = await params
+
     // Prevent deleting yourself
-    if (session.user.id === params.id) {
+    if (session.user.id === id) {
       return NextResponse.json(
         { error: "Cannot delete your own account" },
         { status: 400 }
@@ -123,7 +129,7 @@ export async function DELETE(
     }
 
     await prisma.user.delete({
-      where: { id: params.id },
+      where: { id },
     })
 
     return NextResponse.json({ message: "User deleted successfully" })

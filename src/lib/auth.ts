@@ -4,9 +4,10 @@ import Credentials from 'next-auth/providers/credentials'
 import { prisma } from '@/lib/prisma'
 import { compare } from 'bcryptjs'
 import { loginSchema } from '@/schemas/auth'
+import type { Role } from '@prisma/client'
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
-  adapter: PrismaAdapter(prisma),
+  adapter: PrismaAdapter(prisma) as any,
   session: { strategy: 'jwt' },
   pages: {
     signIn: '/login',
@@ -55,14 +56,14 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.role = user.role
+        token.role = user.role as Role
         token.id = user.id
       }
       return token
     },
     async session({ session, token }) {
       if (session.user) {
-        session.user.role = token.role as string
+        session.user.role = token.role as Role
         session.user.id = token.id as string
       }
       return session
