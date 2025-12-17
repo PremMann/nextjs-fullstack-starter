@@ -1,0 +1,31 @@
+import type { Metadata } from "next"
+import "./globals.css"
+import { ThemeProvider } from "@/components/shared/theme-provider"
+import { Toaster } from "@/components/ui/toaster"
+
+export const metadata: Metadata = {
+  title: "Next.js Fullstack Starter",
+  description: "A complete Next.js 15 fullstack starter with authentication, database, and UI components",
+}
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode
+}>) {
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <body className="font-sans antialiased">
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+          <Toaster />
+        </ThemeProvider>
+      </body>
+    </html>
+  )
+}
