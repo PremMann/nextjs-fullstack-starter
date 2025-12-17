@@ -106,7 +106,7 @@ export function UserTable({ users, currentUserId, currentUserRole }: UserTablePr
         <TableBody>
           {users.length === 0 ? (
             <TableRow>
-              <TableCell colSpan={5} className="text-center text-muted-foreground">
+              <TableCell colSpan={isAdmin ? 5 : 4} className="text-center text-muted-foreground">
                 No users found
               </TableCell>
             </TableRow>
