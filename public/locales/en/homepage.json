@@ -1,0 +1,34 @@
+{
+    "about_us": "About Us",
+    "contact_us": "Contact Us",
+    "login": "Login",
+    "register": "Register",
+    "dashboard": "Dashboard",
+    "hero": {
+        "title": "Build Fullstack Apps Faster",
+        "description": "A complete Next.js 15 starter template with authentication, database, server actions, and beautiful UI components.",
+        "get_started": "Get Started",
+        "sign_in": "Sign In",
+        "go_to_dashboard": "Go to Dashboard"
+    },
+    "features": {
+        "title": "Everything You Need",
+        "auth_title": "Authentication",
+        "auth_desc": "Complete auth system with NextAuth.js.",
+        "db_title": "Database",
+        "db_desc": "Prisma ORM with PostgreSQL support.",
+        "actions_title": "Server Actions",
+        "actions_desc": "Type-safe server actions for mutations.",
+        "security_title": "Security",
+        "security_desc": "Built-in security with bcrypt hashing.",
+        "ui_title": "UI Components",
+        "ui_desc": "Beautiful Shadcn UI components with Tailwind.",
+        "users_title": "User Management",
+        "users_desc": "Complete user management dashboard."
+    },
+    "cta": {
+        "title": "Ready to Get Started?",
+        "description": "Create your account now and start building your next project.",
+        "sign_up_free": "Sign Up Free"
+    }
+}
