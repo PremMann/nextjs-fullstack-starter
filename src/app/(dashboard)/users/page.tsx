@@ -4,9 +4,19 @@ import { Header } from "@/components/dashboard/header"
 import { UserTable } from "@/components/dashboard/user-table"
 import { getUsersAction } from "@/actions/user.actions"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { AlertCircle } from "lucide-react"
+import { AlertCircle } from "lucide-react";
+import { UsersToolbar } from "@/components/dashboard/users-toolbar";
 
-export default async function UsersPage() {
+type UsersPageProps = {
+  searchParams?: Promise<{
+    search?: string
+    role?: string
+    page?: string
+    limit?: string
+  }>
+}
+
+export default async function UsersPage({ searchParams }: UsersPageProps) {
   const session = await auth()
 
   if (!session?.user) {
@@ -31,7 +41,14 @@ export default async function UsersPage() {
     )
   }
 
-  const result = await getUsersAction(1, 100)
+  const sp = await searchParams
+
+  const search = (sp?.search ?? "").trim()
+  const role = (sp?.role ?? "").trim()
+  const page = Math.max(1, Number(sp?.page ?? "1") || 1)
+  const limit = Math.min(100, Math.max(1, Number(sp?.limit ?? "20") || 20))
+
+  const result = await getUsersAction(page, limit, search, role || undefined)
 
   if (!result.success || !result.data) {
     return (
@@ -62,10 +79,20 @@ export default async function UsersPage() {
           </p>
         </div>
 
+        <UsersToolbar
+          initialSearch={search}
+          initialRole={role}
+          initialLimit={limit}
+        />
+
         <UserTable
           users={result.data.data}
           currentUserId={session.user.id || ""}
           currentUserRole={session.user.role || "USER"}
+          page={result.data.pagination.page}
+          totalPages={result.data.pagination.totalPages}
+          limit={result.data.pagination.limit}
+          total={result.data.pagination.total}
         />
       </div>
     </div>

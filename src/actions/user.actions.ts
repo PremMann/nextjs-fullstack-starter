@@ -10,21 +10,33 @@ import type { User, Role } from '@prisma/client'
 export async function getUsersAction(
   page: number = 1,
   limit: number = 10,
-  search?: string
+  search?: string,
+  role?: string
 ): Promise<ActionResult<PaginatedResponse<Omit<User, 'password'>>>> {
   try {
     await requireRole('MODERATOR')
 
     const skip = (page - 1) * limit
 
-    const where = search
-      ? {
-          OR: [
-            { name: { contains: search, mode: 'insensitive' as const } },
-            { email: { contains: search, mode: 'insensitive' as const } },
-          ],
-        }
-      : {}
+    const normalizedSearch = search?.trim()
+    const normalizedRole = role?.trim()
+
+    const roleFilter: Role | undefined =
+      normalizedRole && ['ADMIN', 'MODERATOR', 'USER'].includes(normalizedRole)
+        ? (normalizedRole as Role)
+        : undefined
+
+    const where: any = {
+      ...(roleFilter ? { role: roleFilter } : {}),
+      ...(normalizedSearch
+        ? {
+            OR: [
+              { name: { contains: normalizedSearch, mode: 'insensitive' as const } },
+              { email: { contains: normalizedSearch, mode: 'insensitive' as const } },
+            ],
+          }
+        : {}),
+    }
 
     const [users, total] = await Promise.all([
       prisma.user.findMany({
