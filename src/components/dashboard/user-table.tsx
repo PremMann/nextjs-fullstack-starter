@@ -23,15 +23,20 @@ import { MoreHorizontal, Trash2 } from "lucide-react"
 import { deleteUserAction, updateUserRoleAction } from "@/actions/user.actions"
 import { toast } from "@/components/ui/use-toast"
 import { formatDate } from "@/lib/utils"
+import { PaginationControls } from "@/components/dashboard/pagination-controls"
 import type { User, Role } from "@prisma/client"
 
 interface UserTableProps {
   users: Omit<User, "password">[]
   currentUserId: string
   currentUserRole: string
+  page?: number
+  totalPages?: number
+  limit?: number
+  total?: number
 }
 
-export function UserTable({ users, currentUserId, currentUserRole }: UserTableProps) {
+export function UserTable({ users, currentUserId, currentUserRole, page, totalPages, limit, total }: UserTableProps) {
   const [loading, setLoading] = useState<string | null>(null)
 
   async function handleDeleteUser(userId: string, userName: string) {
@@ -172,6 +177,12 @@ export function UserTable({ users, currentUserId, currentUserRole }: UserTablePr
           )}
         </TableBody>
       </Table>
+
+      {typeof page === "number" && typeof totalPages === "number" ? (
+        <div className="border-t p-3">
+          <PaginationControls page={page} totalPages={totalPages} limit={limit} total={total} />
+        </div>
+      ) : null}
     </div>
   )
 }
