@@ -208,7 +208,7 @@ export default function HomePage() {
               <div className="special-icon">🥩</div>
               <div className="special-name">Lok Lak</div>
               <div className="special-kh">លុកឡាក់</div>
-              <div className="special-desc">Tender wok-tossed beef cubes in rich oyster and soy sauce, served with kampot pepper dip, fresh tomatoes and a sunny-side egg over rice.</div>
+              <div className="special-desc">Tender wok-tossed beeff cubes in rich oyster and soy sauce, served with kampot pepper dip, fresh tomatoes and a sunny-side egg over rice.</div>
               <div className="special-price">$9.00</div>
             </div>
             <div className="special-card">
