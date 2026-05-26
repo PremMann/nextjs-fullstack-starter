@@ -106,7 +106,7 @@ export default function HomePage() {
         <div className="hero-content">
           <div className="hero-tag">🍽 Authentic Cambodian Cuisine</div>
           <h1>Ptes <em>Neary</em></h1>
-          <div className="hero-kh">ផ្ទះនារី</div>
+          <div className="hero-kh">ផ្ទះនារី V2</div>
           <p className="hero-desc">A warm family restaurant serving traditional Khmer flavors crafted with love and fresh local ingredients — just like home.</p>
           <div className="hero-btns">
             <a href="#menu" className="btn-primary">View Our Menu</a>
